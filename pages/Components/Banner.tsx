@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { baseUrl } from "../../Constants/Movie"
+import { baseUrl } from "../../Constants/movie"
 import { Movie } from "../../typing"
 
 interface Props {
