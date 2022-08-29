@@ -1,5 +1,7 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import { useRecoilState } from "recoil"
+import { modalState, movieState } from "../../atoms/modalAtom."
 import { baseUrl } from "../../Constants/movie"
 import { Movie } from "../../typing"
 
@@ -9,8 +11,8 @@ interface Props {
 const Banner = ({netflixOriginals} :Props) => {
 
     const [movie, setMovie] = useState<Movie | null>(null)
-//   const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
-//   const [showModal, setShowModal] = useRecoilState(modalState)
+    const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
+    const [showModal, setShowModal] = useRecoilState(modalState)
 
     useEffect(() => {
         setMovie(
@@ -42,8 +44,8 @@ const Banner = ({netflixOriginals} :Props) => {
                 <button
                 className="bannerButton bg-[gray]/70"
                 onClick={() => {
-                    // setCurrentMovie(movie)
-                    // setShowModal(true)
+                    setCurrentMovie(movie)
+                    setShowModal(true)
                 }}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-8 md:w-8">

@@ -4,6 +4,11 @@ import Banner from './Components/Banner'
 import requests from '../utils/requets'
 import { Movie } from '../typing'
 import Row from './Components/Row'
+import Modal from './Components/Modal'
+import { useRecoilValue } from 'recoil'
+import { modalState, movieState } from '../atoms/modalAtom.'
+import useAuth from '../hooks/useAuth'
+import useList from '../hooks/useList'
 
 interface Props {
   netflixOriginals : Movie[]
@@ -15,7 +20,6 @@ interface Props {
   romanceMovies: Movie[]
   documentaries: Movie[]
 }
-
 const Home = ({ 
                 netflixOriginals,
                 actionMovies,
@@ -24,14 +28,21 @@ const Home = ({
                 horrorMovies,
                 romanceMovies,
                 topRated,
-                trendingNow } : Props) => {
+                trendingNow } : Props) => 
+  {
+  const { user, loading } = useAuth()
+  const showModal = useRecoilValue(modalState)
+  const movie = useRecoilValue(movieState)
+  const list = useList(user?.uid)
 
-  // console.log(trendingNow);
-  
+
+
   return (
     <div className='relative h-screen bg-gradient-to-b lg:h-[140vh]'>
       <Head>
-        <title>Home - Netlix</title>
+      <title>
+          {movie?.title || movie?.original_name || 'Home'} - Netflix
+        </title>
         <link rel="icon" href="/pngwing.com.png" />
       </Head>
       <Header />
@@ -41,8 +52,8 @@ const Home = ({
           <Row title="Trending Now" movies={trendingNow} />
           <Row title="Top Rated" movies={topRated} />
           <Row title="Action Thrillers" movies={actionMovies} />
-          {/* My List
-          {list.length > 0 && <Row title="My List" movies={list} />} */}
+          {/* My List */}
+          {list.length > 0 && <Row title="My List" movies={list} />}
 
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
@@ -50,6 +61,7 @@ const Home = ({
           <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
+      {showModal && <Modal />}
      </div>
   )
 }
