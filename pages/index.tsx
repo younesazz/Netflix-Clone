@@ -9,6 +9,11 @@ import { useRecoilValue } from 'recoil'
 import { modalState, movieState } from '../atoms/modalAtom.'
 import useAuth from '../hooks/useAuth'
 import useList from '../hooks/useList'
+import Plans from './Components/Plans'
+import payments from '../lib/stripe'
+import { getProducts, Product } from '@stripe/firestore-stripe-payments'
+import useSubscription from '../hooks/useSubscription'
+import Footer from './Components/Footer'
 
 interface Props {
   netflixOriginals : Movie[]
@@ -19,8 +24,9 @@ interface Props {
   horrorMovies: Movie[]
   romanceMovies: Movie[]
   documentaries: Movie[]
+  products: Product []
 }
-const Home = ({ 
+const Home  = ({ 
                 netflixOriginals,
                 actionMovies,
                 comedyMovies,
@@ -28,13 +34,20 @@ const Home = ({
                 horrorMovies,
                 romanceMovies,
                 topRated,
-                trendingNow } : Props) => 
-  {
+                trendingNow ,
+                products,
+    } : Props) => {
+      console.log(products);
+      
   const { user, loading } = useAuth()
   const showModal = useRecoilValue(modalState)
   const movie = useRecoilValue(movieState)
   const list = useList(user?.uid)
+  const subscription = useSubscription(user)
 
+  if (loading || subscription === null) return null
+
+  if (!subscription) return <Plans  products={products}/>
 
 
   return (
@@ -52,8 +65,8 @@ const Home = ({
           <Row title="Trending Now" movies={trendingNow} />
           <Row title="Top Rated" movies={topRated} />
           <Row title="Action Thrillers" movies={actionMovies} />
-          {/* My List 
-          {list.length > 0 && <Row title="My List" movies={list} />} */}
+          {/* My List */}
+          {list.length > 0 && <Row title="My List" movies={list} />}
 
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
@@ -62,6 +75,7 @@ const Home = ({
         </section>
       </main>
       {showModal && <Modal />}
+      <Footer />
      </div>
   )
 }
@@ -70,7 +84,12 @@ export default Home
 
 
 export const getServerSideProps = async () => {
- 
+  const products = await getProducts(payments, {
+    includePrices: true,
+    activeOnly: true,
+  })
+    .then((res) => res)
+    .catch((error) => console.log(error.message))
   const [
     netflixOriginals,
     trendingNow,
@@ -101,7 +120,7 @@ export const getServerSideProps = async () => {
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
-
+      products,
     },
   }
 }

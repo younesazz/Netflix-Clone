@@ -5,7 +5,8 @@ import {
     signOut,
     User,
   } from 'firebase/auth'
-  
+  import toast, { Toaster } from 'react-hot-toast'
+
   import { useRouter } from 'next/router'
   import { createContext, useContext, useEffect, useMemo, useState } from 'react'
   import { auth } from '../firebase'
@@ -38,6 +39,28 @@ import {
     const [error, setError] = useState(null)
     const [initialLoading, setInitialLoading] = useState(true)
     const [loading, setLoading] = useState(false)
+
+    const toastStyle = {
+      background: 'red',
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      padding: '15px',
+      borderRadius: '10px',
+      maxWidth: '1000px',
+    }
+
+    const errorFunction = async () => {
+     
+        toast(
+          `Login Failed`,
+          {
+            duration: 4000,
+            style: toastStyle,
+          }
+        )
+      
+    }
   
     useEffect(
       () =>
@@ -79,7 +102,7 @@ import {
           router.push('/')
           setLoading(false)
         })
-        .catch((error) => alert(error.message))
+        .catch((error) => errorFunction())
         .finally(() => setLoading(false))
     }
   
@@ -101,6 +124,7 @@ import {
   
     return (
       <AuthContext.Provider value={memoedValue}>
+        <Toaster position="top-center" />
         {!initialLoading && children}
       </AuthContext.Provider>
     
