@@ -31,7 +31,7 @@ function Plans({ products }: Props) {
         <title>Netflix</title>
         <link rel="icon" href="/pngwing.com.png" />
       </Head>
-      <header className="border-b border-white/10 bg-[#ffffff]">
+       <header className="border-b border-white/10 bg-[#000000]">
         <Link href="/">
           <img
             src="Netflix_2015_logo (1).svg"
@@ -42,7 +42,7 @@ function Plans({ products }: Props) {
           />
         </Link>
         <button
-          className="text-lg font-medium hover:underline text-[#000000]"
+          className="text-lg font-medium hover:underline text-[#ffffff]"
           onClick={logout}
         >
           Sign Out
