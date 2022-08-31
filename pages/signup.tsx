@@ -57,7 +57,7 @@ function Login() {
         className="relative mt-20 space-y-12 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-4xl font-semibold pt-5">Sign In</h1>
+        <h1 className="text-4xl font-semibold pt-5">Sign Up</h1>
         <div className="space-y-4">
           <label className="inline-block w-full">
             <input
@@ -93,19 +93,19 @@ function Login() {
         </div>
         <button
           className="w-full rounded bg-[#E50914] py-3 font-semibold"
-          onClick={() => setLogin(true)}
+          onClick={() => setLogin(false)}
           type="submit"
         >
-          Sign In
+          Sign Up
         </button>
         <div className="text-[gray]">
-          New to Netflix?{' '}
-          <Link href={`/signup`}>
+          Have you an account?{' '}
+          <Link href={`/login`} >
             <button
               className="cursor-pointer text-white hover:underline"
               type="submit"
             >
-              Sign up now
+              Sign in 
             </button>
           </Link>
           <br />
