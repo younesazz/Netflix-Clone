@@ -66,9 +66,7 @@ function Account({ products }: Props) {
               products.filter(
                 (product) => product.id === subscription?.product
               )[0]?.name == fx 
-              if (fx === "premuim") {
-                console.log('f')
-              }
+              
               
               
             }
