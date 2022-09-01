@@ -13,7 +13,7 @@ interface Props {
 }
 
 function Account({ products }: Props) {
-  console.log(products)
+  let fx;
   const { user, logout, loading } = useAuth()
   const subscription = useSubscription(user)
   const [isBillingLoading, setBillingLoading] = useState(false)
@@ -65,7 +65,10 @@ function Account({ products }: Props) {
             {
               products.filter(
                 (product) => product.id === subscription?.product
-              )[0]?.name 
+              )[0]?.name == fx 
+              if (fx === "premuim") {
+                console.log('f')
+              }
               
               
             }
