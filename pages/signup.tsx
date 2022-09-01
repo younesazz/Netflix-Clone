@@ -44,7 +44,7 @@ function Login() {
         className="-z-10 !hidden opacity-60 sm:!inline"
         objectFit="cover"
       />
-      <Link href={`/`}>
+      <Link href={`/login`}>
         <img
           src="/Netflix_2015_logo (1).svg"
           className="absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6"
